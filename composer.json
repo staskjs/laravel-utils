@@ -1,0 +1,19 @@
+{
+    "name": "dq/laravel-utils",
+    "description": "Collection of utils for laravel",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Stas Karpov",
+            "email": "gilbert_90@mail.ru"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+        ],
+        "psr-4": {
+            "Dq\\LaravelUtils\\": "src/"
+        }
+    }
+
+}
