@@ -1,18 +1,18 @@
 {
-    "name": "dq/laravel-utils",
+    "name": "staskjs/laravel-utils",
     "description": "Collection of utils for laravel",
     "type": "library",
     "authors": [
         {
             "name": "Stas Karpov",
-            "email": "gilbert_90@mail.ru"
+            "email": "staskjs@mail.ru"
         }
     ],
     "autoload": {
         "classmap": [
         ],
         "psr-4": {
-            "Dq\\LaravelUtils\\": "src/"
+            "Staskjs\\LaravelUtils\\": "src/"
         }
     }
 

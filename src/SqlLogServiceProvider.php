@@ -1,6 +1,6 @@
 <?php
 
-namespace Dq\LaravelUtils;
+namespace Staskjs\LaravelUtils;
 
 use Illuminate\Support\ServiceProvider;
 
