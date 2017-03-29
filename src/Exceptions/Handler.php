@@ -9,7 +9,7 @@ class Handler extends ExceptionHandler
 {
     public function render($request, Exception $e)
     {
-        if ($request->isXmlHttpRequest()) {
+        if ($request->expectsJson()) {
             if (config('app.debug') == false) {
                 if ($e instanceof \PDOException) {
                    return response()->json(['error' => 'Error in database connection or query'], 500);
