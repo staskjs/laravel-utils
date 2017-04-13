@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 class SqlLogServiceProvider extends ServiceProvider
 {
+    protected $queryNumber = 0;
     /**
      * Bootstrap the application services.
      *
@@ -28,6 +29,8 @@ class SqlLogServiceProvider extends ServiceProvider
             }
             $logger->info('');
             \DB::listen(function($query) use ($logger) {
+                $this->queryNumber++;
+
                 $bindings = $query->bindings;
                 foreach ($bindings as &$binding) {
                     $binding = is_numeric($binding) ? $binding : "'$binding'";
@@ -43,7 +46,21 @@ class SqlLogServiceProvider extends ServiceProvider
                     $sql = preg_replace("/\b{$word}\b/", strtoupper($word), $sql);
                 }
                 $sql = str_replace('`', '', $sql);
-                $logger->info("sql: ({$query->time} ms) {$sql};");
+                $time = (string) $query->time;
+                $maxTimeLength = 6;
+                $numberOfSpaces = $maxTimeLength - strlen($time);
+
+                $spaces = '';
+                if ($numberOfSpaces > 0) {
+                    $spaces = str_repeat(' ', $numberOfSpaces);
+                }
+
+                if ($this->queryNumber % 2 == 0) {
+                    $logger->info("\033[38;5;12msql: ({$time} ms){$spaces}\033[0m {$sql};");
+                }
+                else {
+                    $logger->info("\033[38;5;14msql: ({$time} ms){$spaces}\033[0m {$sql};");
+                }
             });
         }
     }
