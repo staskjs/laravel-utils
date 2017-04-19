@@ -39,7 +39,7 @@ class SqlLogServiceProvider extends ServiceProvider
                 $sqlWords = [
                     'select', 'from', 'where', 'order by', 'group by', 'limit', 'offset', 'and', 'or', 'not',
                     'set', 'update', 'delete', 'insert', 'into', 'values', 'join', 'left', 'inner', 'outer', 'right', 'having',
-                    'count', 'max', 'min', 'avg', 'sum', 'like', 'between', 'asc', 'desc',
+                    'count', 'max', 'min', 'avg', 'sum', 'like', 'between', 'asc', 'desc', 'is',
                 ];
                 $sql = Str::replaceArray('?', $bindings, $query->sql);
                 foreach ($sqlWords as $word) {
