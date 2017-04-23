@@ -66,7 +66,8 @@ class SqlLogServiceProvider extends ServiceProvider
     }
 
     protected function getLogger() {
-        $logStreamHandler = new StreamHandler(storage_path('logs/laravel.log'), 'info');
+        $logfile = $this->getLogFileName();
+        $logStreamHandler = new StreamHandler(storage_path("logs/$logfile"), 'info');
         $logFormat = "%message%\n";
         $formatter = new LineFormatter($logFormat);
         $logStreamHandler->setFormatter($formatter);
@@ -74,5 +75,14 @@ class SqlLogServiceProvider extends ServiceProvider
         $logger->pushHandler($logStreamHandler);
 
         return $logger;
+    }
+
+    protected function getLogFileName() {
+        if (env('APP_LOG') == 'daily') {
+            $date = date('Y-m-d');
+            return "laravel-$date.log";
+        }
+
+        return 'laravel.log';
     }
 }
