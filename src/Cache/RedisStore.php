@@ -12,7 +12,7 @@ class RedisStore extends LaravelRedisStore
      */
     public function tags($names)
     {
-        $tags = config('cache.default_tags', [config('app.name'), config('app.env')]);
+        $tags = config('cache.default_tags', [config('app.name') . ' ' . config('app.env')]);
         $tags = array_merge($tags, $names);
         return parent::tags($tags);
     }
