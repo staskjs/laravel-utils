@@ -5,7 +5,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
 use Illuminate\Support\Str;
 
-class RequestTime
+class SqlLog
 {
     protected $queryNumber = 0;
 
