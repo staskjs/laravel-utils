@@ -6,7 +6,8 @@ trait DatabaseTruncate
 {
     public function truncateDatabase()
     {
-        $dbname = env('DB_DATABASE');
+        $connection = config('database.default');
+        $dbname = config("database.connections.{$connection}.database");
 
         \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
