@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Providers;
+<?php namespace Staskjs\LaravelUtils;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
