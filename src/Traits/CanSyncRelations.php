@@ -1,4 +1,4 @@
-<?php namespace App\Traits;
+<?php namespace Staskjs\LaravelUtils\Traits;
 
 /*
  * Attempt to replicate Rails accepts_nested_attributes_for
