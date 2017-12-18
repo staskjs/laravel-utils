@@ -74,7 +74,8 @@ class SqlLog
             $queryTotalTime = ceil($queryTotalTime);
 
             $code = $response->getStatusCode();
-            $status = \Illuminate\Http\Response::$statusTexts[$code];
+            $statusTexts = \Illuminate\Http\Response::$statusTexts;
+            $status = isset($statusTexts[$code]) ? statusTexts[$code] : '';
             $status = "{$code} {$status}";
 
             $this->logger->info('');
