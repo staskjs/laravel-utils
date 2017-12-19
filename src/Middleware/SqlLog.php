@@ -75,7 +75,7 @@ class SqlLog
 
             $code = $response->getStatusCode();
             $statusTexts = \Illuminate\Http\Response::$statusTexts;
-            $status = isset($statusTexts[$code]) ? statusTexts[$code] : '';
+            $status = isset($statusTexts[$code]) ? $statusTexts[$code] : '';
             $status = "{$code} {$status}";
 
             $this->logger->info('');
