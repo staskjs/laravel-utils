@@ -35,7 +35,7 @@ trait CanSyncRelations {
             if ($existingItem) {
                 foreach ($fields as $field) {
                     if(isset($item[$field])) {
-                        $existingItem->{$field} = $item[$field];
+                        $existingItem->attributes[$field] = $item[$field];
                     }
                 }
                 $existingItem->save();
@@ -47,7 +47,7 @@ trait CanSyncRelations {
             $newItem = new $newItem;
             foreach ($fields as $field) {
                 if(isset($item[$field])) {
-                    $newItem->{$field} = $item[$field];
+                    $newItem->attributes[$field] = $item[$field];
                 }
             }
 
