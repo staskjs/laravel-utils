@@ -33,6 +33,10 @@ trait CanSyncRelations {
         $existingItems->each(function($item) use ($relationName, $fields) {
             $existingItem = $this->{$relationName}()->whereId($item['id'])->first();
             if ($existingItem) {
+                if (!empty($item['_destroy'])) {
+                    $existingItem->delete();
+                    return;
+                }
                 foreach ($fields as $field) {
                     if(isset($item[$field])) {
                         $existingItem->attributes[$field] = $item[$field];
@@ -43,6 +47,9 @@ trait CanSyncRelations {
         });
 
         $newItems->each(function($item) use ($relationName, $fields, $onCreate) {
+            if (!empty($item['_destroy'])) {
+                return;
+            }
             $newItem = $this->{$relationName}()->getRelated();
             $newItem = new $newItem;
             foreach ($fields as $field) {
