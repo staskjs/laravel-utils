@@ -11,7 +11,7 @@ trait DatabaseTruncate
 
         \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $tables = collect(\DB::select('SHOW TABLES'))->map(function($value) use ($dbname) {
+        $tables = collect(\DB::select("SHOW FULL TABLES WHERE Table_Type != 'VIEW'"))->map(function($value) use ($dbname) {
             return $value->{"Tables_in_$dbname"};
         })->each(function($table) {
             if ($table != 'migrations') {
