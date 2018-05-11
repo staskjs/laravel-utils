@@ -8,6 +8,9 @@
             "email": "staskjs@mail.ru"
         }
     ],
+    "require": {
+        "laravel/framework": ">=5.4"
+    },
     "autoload": {
         "classmap": [
         ],
