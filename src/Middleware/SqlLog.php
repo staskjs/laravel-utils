@@ -24,6 +24,9 @@ class SqlLog
                 $this->logger->info('');
                 $date = \Carbon\Carbon::now();
                 $this->logger->info("--------- $date --------- $method $url");
+                if (!$request->isMethod('get')) {
+                    $this->logger->info('data: ' . json_encode($request->all()));
+                }
             }
             $this->logger->info('');
             \DB::listen(function($query) {
