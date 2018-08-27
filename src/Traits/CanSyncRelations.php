@@ -38,7 +38,7 @@ trait CanSyncRelations {
                     return;
                 }
                 foreach ($fields as $field) {
-                    if(isset($item[$field])) {
+                    if (array_key_exists($field, $item)) {
                         $existingItem->attributes[$field] = $item[$field];
                     }
                 }
