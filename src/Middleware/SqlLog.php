@@ -24,7 +24,7 @@ class SqlLog
                 $this->logger->info('');
                 $date = \Carbon\Carbon::now();
                 $this->logger->info("--------- $date --------- $method $url");
-              
+
                 if (!$request->isMethod('get')) {
                     $this->logger->info('data: ' . json_encode($request->all()));
                 }
@@ -84,6 +84,14 @@ class SqlLog
 
             $this->logger->info('');
             $this->logger->info("Completed {$status} in {$time} ms, database: ${queryTotalTime} ms ({$queryCount} queries)");
+
+            if (env('UT_LOG_RESPONSE_DATA')) {
+                $content = $response->content();
+                if (empty($content)) {
+                    $content = 'no content (empty)';
+                }
+                $this->logger->info("Responded with: ${content}");
+            }
         }
     }
 
