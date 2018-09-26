@@ -29,41 +29,43 @@ class SqlLog
                     $this->logger->info('data: ' . json_encode($request->all()));
                 }
             }
-            $this->logger->info('');
-            \DB::listen(function($query) {
-                $this->queryNumber++;
+            if (is_null(env('UT_LOG_SQL')) || !empty(env('UT_LOG_SQL'))) {
+                $this->logger->info('');
+                \DB::listen(function($query) {
+                    $this->queryNumber++;
 
-                $bindings = $query->bindings;
-                foreach ($bindings as &$binding) {
-                    $binding = is_numeric($binding) ? $binding : "'$binding'";
-                }
+                    $bindings = $query->bindings;
+                    foreach ($bindings as &$binding) {
+                        $binding = is_numeric($binding) ? $binding : "'$binding'";
+                    }
 
-                $sqlWords = [
-                    'select', 'from', 'where', 'order by', 'group by', 'limit', 'offset', 'and', 'or', 'not',
-                    'set', 'update', 'delete', 'insert', 'into', 'values', 'join', 'left', 'inner', 'outer', 'right', 'having',
-                    'count', 'max', 'min', 'avg', 'sum', 'like', 'between', 'asc', 'desc', 'is',
-                ];
-                $sql = Str::replaceArray('?', $bindings, $query->sql);
-                foreach ($sqlWords as $word) {
-                    $sql = preg_replace("/\b{$word}\b/", strtoupper($word), $sql);
-                }
-                $sql = str_replace('`', '', $sql);
-                $time = (string) $query->time;
-                $maxTimeLength = 6;
-                $numberOfSpaces = $maxTimeLength - strlen($time);
+                    $sqlWords = [
+                        'select', 'from', 'where', 'order by', 'group by', 'limit', 'offset', 'and', 'or', 'not',
+                        'set', 'update', 'delete', 'insert', 'into', 'values', 'join', 'left', 'inner', 'outer', 'right', 'having',
+                        'count', 'max', 'min', 'avg', 'sum', 'like', 'between', 'asc', 'desc', 'is',
+                    ];
+                    $sql = Str::replaceArray('?', $bindings, $query->sql);
+                    foreach ($sqlWords as $word) {
+                        $sql = preg_replace("/\b{$word}\b/", strtoupper($word), $sql);
+                    }
+                    $sql = str_replace('`', '', $sql);
+                    $time = (string) $query->time;
+                    $maxTimeLength = 6;
+                    $numberOfSpaces = $maxTimeLength - strlen($time);
 
-                $spaces = '';
-                if ($numberOfSpaces > 0) {
-                    $spaces = str_repeat(' ', $numberOfSpaces);
-                }
+                    $spaces = '';
+                    if ($numberOfSpaces > 0) {
+                        $spaces = str_repeat(' ', $numberOfSpaces);
+                    }
 
-                if ($this->queryNumber % 2 == 0) {
-                    $this->logger->info("\033[38;5;12msql: ({$time} ms){$spaces}\033[0m {$sql};");
-                }
-                else {
-                    $this->logger->info("\033[38;5;14msql: ({$time} ms){$spaces}\033[0m {$sql};");
-                }
-            });
+                    if ($this->queryNumber % 2 == 0) {
+                        $this->logger->info("\033[38;5;12msql: ({$time} ms){$spaces}\033[0m {$sql};");
+                    }
+                    else {
+                        $this->logger->info("\033[38;5;14msql: ({$time} ms){$spaces}\033[0m {$sql};");
+                    }
+                });
+            }
         }
 
         return $next($request);
