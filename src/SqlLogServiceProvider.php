@@ -33,6 +33,9 @@ class SqlLogServiceProvider extends ServiceProvider
 
                 $bindings = $query->bindings;
                 foreach ($bindings as &$binding) {
+                    if (is_a($binding, 'DateTime')) {
+                        $binding = $binding->format('Y-m-d H:i:s');
+                    }
                     $binding = is_numeric($binding) ? $binding : "'$binding'";
                 }
 
